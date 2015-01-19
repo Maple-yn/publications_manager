@@ -1,0 +1,18 @@
+{
+  "name": "publications_manager",
+  "version": "1.0.0",
+  "description": "web application for storing data of publications. ",
+  "main": "srv.js",
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "git-it": "^1.6.0",
+    "express": "^4.10.6",
+    "mysql": "^2.5.4",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Kazuya Yanagisawa",
+  "license": "ISC"
+}

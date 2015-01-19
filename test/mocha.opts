@@ -1,0 +1,5 @@
+--require should
+--require date-utils
+--require test/initializer
+--ui bdd
+--recursive
