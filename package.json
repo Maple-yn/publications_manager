@@ -1,18 +1,28 @@
 {
   "name": "publications_manager",
   "version": "1.0.0",
-  "description": "web application for storing data of publications. ",
+  "description": "",
   "main": "srv.js",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "ejs": "^1.0.0",
-    "git-it": "^1.6.0",
-    "express": "^4.10.6",
     "mysql": "^2.5.4",
+    "express": "^4.10.6"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "test"
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maple-yn/publications_manager.git"
   },
   "author": "Kazuya Yanagisawa",
-  "license": "ISC"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maple-yn/publications_manager/issues"
+  },
+  "homepage": "https://github.com/Maple-yn/publications_manager"
 }

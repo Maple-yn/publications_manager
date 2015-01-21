@@ -41,5 +41,17 @@ module.exports = connection = {
 // main code
 if(module.parent===null){
     var config_filename = dir + '/config/mysql_connection.json';
-    connection.open(config_filename);
+    con = connection.open(config_filename);
+    con.query(
+                "select * from list inner join journal_papers on list.id = journal_papers.id where journal_papers.volume = 19",
+                function(err, res){
+                    if(err){
+                        console.log("err" + err);
+                        return;
+                    }
+                    console.log(res);
+                    console.log(res[0].language);
+                    return;
+                });
 }
+return;
