@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Kazuya Yanagisawa">
+
+<title>業績登録</title>
+
+<!-- <script type="text/jacascript" src="http://hosodalab.sakura.ne.jp/lib/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+     document.getElementById("format").onchange = function(){
+         bindSelectAuthor();
+         bindSelectForm();
+     }
+     
+     var bindtoAuthor = function(data){
+         var author_select = document.getElementsByName('author_select');
+         /* select.length = 0; */
+         for(var i=0; i<author_select.length; ++i){
+             for(var j=0; j<data.length; ++j){
+                 author_select[i].options[j] = new Option(data[j], data[j]);
+             }
+         }
+     }
+
+     var bindSelectAuthor = function(){
+         var format = document.getElementById("format");
+         var author = ["Hosoda, Koh", "Shimizu, Masahiro", "Ikemoto, Shuhei", "Rosendo, Andre"];
+         var author_ja = ["細田, 耕", "清水, 正宏", "池本, 周平", "Rosendo, Andre"];
+
+         switch(format.value){
+             case "journal":
+             case "conference":
+                 bindtoAuthor(author);
+                 break;
+                 
+             case "journal_ja":
+             case "conference_ja":
+                 bindtoAuthor(author_ja);
+                 break;
+             default:
+                 break;
+         }
+     }
+
+     var bindtoForm = function(data){
+         var form_select = document.getElementById('form_select');
+         var i= 0;
+         for(var key in data){
+             form_select.options[i] = new Option(data[key], key);
+             ++i;
+         }
+     }
+
+     var bindSelectForm = function(){
+         var format = document.getElementById("format");
+         var name_journal = {adv_rob: "Advanced Robotics", rob_auto_mgz: "IEEE Robotics & Automation Magazine", ijrr: "The International Journal of Robotics Research", tran_neunet: "IEEE Transactions on Neural Networks and Learning Systems"};
+         var name_journal_ja = {rsj: "日本ロボット学会誌", sice: "計測自動制御学会論文集"};
+         var name_conference = {iros: "IEEE/RSJ International Conference on Intelligent Robots and Systems", icra: "IEEE International Conference on Robotics and Automation", humanoids: "IEEE-RAS International Conference on Humanoid Robots", robio: "IEEE International Conference on Robotics and Biomimetics"};
+         var name_conference_ja = {rob_sympo: "ロボティクスシンポジア", robomech: "ロボティクス・メカトロニクス講演会", rsj_oral: "日本ロボット学会学術講演会"};
+
+         var journal_form = '<tr><th class="style_th">journal</th><td class="style_td"><select id="form_select" name="form_select" class="combo" style="width:35em"></select>\
+<input type="button" name="chg_form_input" id="chg_form_input" value="Change Input Type"></td></tr>\
+<tr><th class="style_th">year</th><td class="style_td"><input type="number" name="_year" min="1990" max="2100" value></td></tr>\
+<tr><th class="style_th">month</th><td class="style_td"><input type="number" name="_month" min="1" max="12" value></td></tr>\
+<tr><th class="style_th">volume</th><td class="style_td"><input type="number" name="_volume" min="0" value></td></tr>\
+<tr><th class="style_th">number</th><td class="style_td"><input type="number" name="_number" min="0" value></td></tr>\
+<tr><th class="style_th">pages</th><td class="style_td"><input type="text" name="_name" size="30" value></td></tr>\
+<tr><th class="style_th">doi</th><td class="style_td"><input type="text" name="_doi" size="30" value></td></tr>\
+<tr><th class="style_th">abstract</th><td class="style_td"><textarea name="_abstract" cols="70" rows="10"></textarea></td></tr>';
+
+         var conference_form  = '<tr><th class="style_th">conference</th><td class="style_td"><select id="form_select" name="form_select" class="combo" style="width:35em"></select>\
+<input type="button" name="chg_form_input" id="chg_form_input" value="Change Input Type"></td></tr></td></tr>\
+<tr><th class="style_th">year</th><td class="style_td"><input type="number" name="_year" min="1990" max="2100" value></td></tr>\
+<tr><th class="style_th">month</th><td class="style_td"><input type="number" name="_month" min="1" max="12" value></td></tr>\
+<tr><th class="style_th">volume</th><td class="style_td"><input type="number" name="_volume" min="0" value></td></tr>\
+<tr><th class="style_th">number</th><td class="style_td"><input type="number" name="_number" min="0" value></td></tr>\
+<tr><th class="style_th">pages</th><td class="style_td"><input type="text" name="_name" size="30" value></td></tr>\
+<tr><th class="style_th">doi</th><td class="style_td"><input type="text" name="_doi" size="30" value></td></tr>\
+<tr><th class="style_th">abstract</th><td class="style_td"><textarea name="_abstract" cols="70" rows="10"></textarea></td></tr>';
+
+         switch(format.value){
+             case "journal":
+                 appendInputForm(journal_form);
+                 bindtoForm(name_journal);
+                 break;
+             case "journal_ja":
+                 appendInputForm(journal_form);
+                 bindtoForm(name_journal_ja);
+                 break;
+             case "conference":
+                 appendInputForm(conference_form);
+                 bindtoForm(name_conference);
+                 break;
+             case "conference_ja":
+                 appendInputForm(conference_form);
+                 bindtoForm(name_conference_ja);
+                 break;
+             default:
+                 break;
+         }         
+     }
+
+     $('#add_author').click(function(){
+         var p_element = document.createElement("p");
+         
+         var select_element = document.createElement("select");
+         select_element.name = "author_select";
+         p_element.appendChild(select_element);
+
+         var chg_button = document.createElement("input");
+         chg_button.type = "button";
+         chg_button.name = "chg_inputbox";
+         chg_button.value = "Change Input Type";
+         p_element.appendChild(chg_button);
+
+         var rm_button = document.createElement("input");
+         rm_button.type = "button";
+         rm_button.name = "rm_author";
+         rm_button.value = "Remove an Author"
+         p_element.appendChild(rm_button);
+
+         var parent_element = document.getElementById("author_div");
+         parent_element.appendChild(p_element);
+
+         bindSelectAuthor();
+         renumberingAuthor();
+     });
+
+     $('#author_div').on("click", "input", function(){
+         var self = $(this);
+         var id = self.attr("id");
+         
+         if(self.attr("name")==="author_input"){
+             return;
+         }
+
+         if(id.match(/chg/)){
+             var input_box = self.prev();
+             var new_input_box;
+             if(input_box.attr("name")==="author_select"){
+                 new_input_box = document.createElement("input");
+                 new_input_box.type = "text";
+                 new_input_box.name = "author_input";
+             }else if(input_box.attr("name")==="author_input"){
+                 new_input_box = document.createElement("select");
+                 new_input_box.name = "author_select";
+             }
+             input_box.replaceWith(new_input_box);
+             bindSelectAuthor();
+         }else if(id.match(/rm/)){
+             self.parent().remove();
+             renumberingAuthor();
+         }
+     });
+
+     $('#input_form').on("click", "input", function(){
+         var self = $(this);
+         var input_box = self.prev();
+
+         if(self.attr("id")!=="chg_form_input"){
+             return;
+         }
+
+         var new_input_box;
+         if(input_box.attr("name")==="form_select"){
+             new_input_box = document.createElement("input");
+             new_input_box.type = "text";
+             new_input_box.id = "form_input";
+             new_input_box.name = "form_input";
+             new_input_box.style = "width:35em";
+             input_box.replaceWith(new_input_box);
+         }else if(input_box.attr("name")==="form_input"){
+             new_input_box = document.createElement("select");
+             new_input_box.id = "form_select";
+             new_input_box.name = "form_select";
+             new_input_box.style = "width:35em";
+             input_box.replaceWith(new_input_box);
+             bindSelectForm();         
+         }
+     });
+     
+     var renumberingAuthor = function(){
+         var author_select = document.getElementsByName('author_select');
+         var chg_button = document.getElementsByName('chg_inputbox');
+         var rm_button = document.getElementsByName('rm_author');
+
+         author_select[0].id = 'author_select0';
+         for(var i=1;i<author_select.length;++i){
+             author_select[i].id = 'author_select' + i;
+             chg_button[i].id = 'chg_inputbox' + i;
+             rm_button[i-1].id =  'rm_author' + i;
+             rm_button[i-1].value = 'Remove an Author' + i;
+         }
+     }
+     
+     var appendInputForm = function(data){
+         var tbody_element = document.createElement("tbody");
+         tbody_element.id = "detail_input_form";
+         tbody_element.innerHTML = data;
+         var parent_element = document.getElementById("input_form");
+         parent_element.replaceChild(tbody_element, document.getElementById("detail_input_form"));
+//         parent_element.appendChild(tbody_element);
+     }
+     
+ });
+</script>
+</head>
+
+<body>
+    <nav id="navi"><ul><li><a href="http://hosodalab.sakura.ne.jp">Home</a></li></ul></nav>
+    <nav id="navi"><ul><li><a href="http://hosodalab.sakura.ne.jp/publications.html">Publications</a></li></ul></nav>
+
+    <article class="post">
+        <h2>細田研業績登録フォーム</h2>
+        <form enctype="multipart/form-data" action="http://hosodalab.sakura.ne.jp/publications_register.cgi" method="post">
+            <div>
+                <div>
+                    <table id="input_form" class="style_table" cellspacing="1" border="0">
+                        <tbody>
+                            <tr>
+                                <th class="style_th">
+                                    投稿先
+                                </th>
+                                <td class="style_td">
+                                    <select id="format" name="format" class="combo">
+                                        <option value="select">----選択してください----</option>
+                                        <option value="journal">学術雑誌（英語）</option>
+                                        <option value="journal_ja">学術雑誌（日本語）</option>
+                                        <option value="conference">国際会議</option>
+                                        <option value="conference_ja">国内会議</option>                                    
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr id="author">
+                                <th class="style_th">
+                                    Author
+                                </th>
+                                <td id="author_td" class="style_td">
+                                    <div id="author_div">
+                                        <p>
+                                            <input type=button id="add_author" name="add_author" value="Add an author"><br>
+                                            <select name="author_select" class=combo>
+                                                <!-- formatに適した入力テーブルのHTMLが挿入されます -->
+                                            </select>
+                                            <input type=button id="chg_inputbox0" name="chg_inputbox" value="Change Input Type">
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr id="title">
+                                <th class="style_th">
+                                    Title
+                                </th>
+                                <td class="style_td">
+                                    <textarea name="_title" cols="70" rows="2"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="detail_input_form">
+                        </tbody>
+                    </table>
+                </div>
+                <input type="submit" name="_submit" value="send">
+            </div>
+        </form>
+    </article>
+
+</body>
+</html>
